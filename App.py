@@ -47,6 +47,7 @@ def gerar_pdf(lista_respostas):
     pdf_path = os.path.join(temp_dir, "respostas_questionario.pdf")
     pdf.output(pdf_path)
     return pdf_path
+    anotacao = st.text_area("Anotações Finais", height=150)
 
 # --- BOTÃO PARA FINALIZAR ---
 if st.button("📄 Gerar PDF das respostas"):
