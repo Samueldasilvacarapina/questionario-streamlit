@@ -7,7 +7,7 @@ import os
 questionario = [
     {"pergunta": "Nome completo do cliente?", "opcoes": []},
     {"pergunta": "Qual seu CPF?", "opcoes": []},
-    {"pergunta": "Qal seu RG?", "opcoes": []},
+    {"pergunta": "Qual seu RG?", "opcoes": []},
     {"pergunta": "Qual seu estado Cívil? Ex: Solteiro, Casado, etc.", "opcoes": ["CASADO(A)", "SOLTEIRO(A)", "DIVORCIADO(A)", "VIÚVO(A)", "UNIÃO ESTÁVEL", "OUTROS"]},
     {"pergunta": "Qual seu endereço completo com CEP?", "opcoes": []},
     {"pergunta": "Qual sua profissão?", "opcoes": []},
@@ -25,11 +25,24 @@ questionario = [
 st.title("📋 Questionário de Informações Essenciais")
 
 # --- LOOP DAS PERGUNTAS ---
-respostas = []  # lista para manter todas as respostas na ordem
+respostas = []
+faltando_resposta = False
+
 for idx, q in enumerate(questionario):
     st.subheader(f"{idx+1}. {q['pergunta']}")
-    resposta = st.radio("Escolha uma opção:", q["opcoes"], key=f"q{idx}")
-    respostas.append((q["pergunta"], resposta))  # salva como tupla (pergunta, resposta)
+
+    if len(q["opcoes"]) == 0:
+        # Pergunta sem opções -> campo de texto livre
+        resposta = st.text_input("Digite a resposta:", key=f"q{idx}")
+    else:
+        # Pergunta com opções -> radio button
+        resposta = st.radio("Escolha uma opção:", q["opcoes"], key=f"q{idx}")
+
+    # Checa se ficou vazio
+    if not resposta.strip():
+        faltando_resposta = True
+    
+    respostas.append((q["pergunta"], resposta))
 
 st.write("---")
 
@@ -65,9 +78,12 @@ def gerar_pdf(lista_respostas, anotacao_texto):
 
 # --- BOTÃO PARA FINALIZAR ---
 if st.button("📄 Gerar PDF das respostas"):
-    pdf_file = gerar_pdf(respostas, anotacao)
-    st.success("✅ PDF gerado com sucesso!")
-    
-    # Exibir botão para download
-    with open(pdf_file, "rb") as f:
-        st.download_button("⬇️ Baixar respostas em PDF", f, file_name="respostas_questionario.pdf")
+    if faltando_resposta:
+        st.warning("⚠️ Preencha TODAS as respostas antes de gerar o PDF!")
+    else:
+        pdf_file = gerar_pdf(respostas, anotacao)
+        st.success("✅ PDF gerado com sucesso!")
+        
+        # Exibir botão para download
+        with open(pdf_file, "rb") as f:
+            st.download_button("⬇️ Baixar respostas em PDF", f, file_name="respostas_questionario.pdf")
