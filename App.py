@@ -26,10 +26,18 @@ st.title("📋 Questionário de Informações Essenciais")
 
 # --- LOOP DAS PERGUNTAS ---
 respostas = []  # lista para manter todas as respostas na ordem
+
 for idx, q in enumerate(questionario):
     st.subheader(f"{idx+1}. {q['pergunta']}")
-    resposta = st.radio("Escolha uma opção:", q["opcoes"], key=f"q{idx}")
-    respostas.append((q["pergunta"], resposta))  # salva como tupla (pergunta, resposta)
+    
+    if q["tipo"] == "texto":
+        resposta = st.text_input("Digite a resposta:", key=f"q{idx}")
+    elif q["tipo"] == "opcoes":
+        resposta = st.radio("Escolha uma opção:", q["opcoes"], key=f"q{idx}")
+    else:
+        resposta = ""  # caso de erro ou tipo não reconhecido
+    
+    respostas.append((q["pergunta"], resposta))
 
 st.write("---")
 
@@ -45,7 +53,7 @@ def gerar_pdf(lista_respostas, anotacao_texto):
     
     pdf.set_font("Arial", "", 12)
     for i, (pergunta, resposta) in enumerate(lista_respostas, start=1):
-        pdf.multi_cell(0, 10, f"{i}. {pergunta}\nResposta: {resposta}")
+        pdf.multi_cell(0, 10, f"{i}. {pergunta}\nResposta: {resposta if resposta else 'NÃO RESPONDIDO'}")
         pdf.ln(5)
 
     # Se tiver anotação, adiciona no final
@@ -71,4 +79,3 @@ if st.button("📄 Gerar PDF das respostas"):
     # Exibir botão para download
     with open(pdf_file, "rb") as f:
         st.download_button("⬇️ Baixar respostas em PDF", f, file_name="respostas_questionario.pdf")
-#python -m streamlit run app.py
