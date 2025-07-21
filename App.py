@@ -5,18 +5,21 @@ import os
 
 # --- CONFIGURAÇÃO DO QUESTIONÁRIO ---
 questionario = [
-    {"pergunta": "Qual é a sua linguagem favorita?", "opcoes": ["Python", "JavaScript", "Java", "C#"]},
-    {"pergunta": "Qual é o seu sistema operacional?", "opcoes": ["Windows", "Linux", "MacOS"]},
-    {"pergunta": "Você gosta de IA?", "opcoes": ["Sim", "Não", "Talvez"]},
-    {"pergunta": "Qual é a sua linguagem favorita?", "opcoes": ["Python", "JavaScript", "Java", "C#"]},
-    {"pergunta": "Qual é o seu sistema operacional?", "opcoes": ["Windows", "Linux", "MacOS"]},
-    {"pergunta": "Você gosta de IA?", "opcoes": ["Sim", "Não", "Talvez"]},
-    {"pergunta": "Qual é a sua linguagem favorita?", "opcoes": ["Python", "JavaScript", "Java", "C#"]},
-    {"pergunta": "Qual é o seu sistema operacional?", "opcoes": ["Windows", "Linux", "MacOS"]},
-    {"pergunta": "Você gosta de IA?", "opcoes": ["Sim", "Não", "Talvez"]},
-    {"pergunta": "Qual é a sua linguagem favorita?", "opcoes": ["Python", "JavaScript", "Java", "C#"]},
-    {"pergunta": "Qual é o seu sistema operacional?", "opcoes": ["Windows", "Linux", "MacOS"]},
-    {"pergunta": "Você gosta de IA?", "opcoes": ["Sim", "Não", "Talvez"]}
+    {"pergunta": "Nome completo do cliente?", "opcoes": []},
+    {"pergunta": "Qual seu CPF?", "opcoes": []},
+    {"pergunta": "Qal seu RG?", "opcoes": []},
+    {"pergunta": "Qual seu estado Cívil? Ex: Solteiro, Casado, etc.", "opcoes": ["CASADO(A)", "SOLTEIRO(A)", "DIVORCIADO(A)", "VIÚVO(A)", "UNIÃO ESTÁVEL", "OUTROS"]},
+    {"pergunta": "Qual seu endereço completo com CEP?", "opcoes": []},
+    {"pergunta": "Qual sua profissão?", "opcoes": []},
+    {"pergunta": "O senhor(a) recebeu algum cartão?", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
+    {"pergunta": "Em caso afirmativo, o senhor(a) faz uso?", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
+    {"pergunta": "O senhor(a) desbloqueou o cartão", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
+    {"pergunta": "O senhor(a) sabe se possui algum cartão vinculado no seu benefício?", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
+    {"pergunta": "O senhor(a) recebeu algum valor em alguma de suas contas?", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
+    {"pergunta": "O senhor(a) recebe faturas desse cartão?", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
+    {"pergunta": "O senhor(a) chegou a pagar alguma fatura ou somente por meio dos descontos?", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
+    {"pergunta": "O senhor(a) possui ação judicial sobre esse assunto com outro advogado?", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
+    {"pergunta": "O senhor(a) deseja discutir em juizo os descontos efetuados no seu benefício?", "opcoes": ["SIM", "NÃO"]}
 ]
 
 st.title("📋 Questionário de Informações Essenciais")
