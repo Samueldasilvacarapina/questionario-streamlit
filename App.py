@@ -5,12 +5,12 @@ import os
 
 # --- CONFIGURAÇÃO DO QUESTIONÁRIO ---
 questionario = [
-    {"pergunta": "Nome completo do cliente?", "opcoes": []},
-    {"pergunta": "Qual seu CPF?", "opcoes": []},
-    {"pergunta": "Qal seu RG?", "opcoes": []},
+    {"pergunta": "Nome completo do cliente?", "Digite": []},
+    {"pergunta": "Qual seu CPF?", "Digite": []},
+    {"pergunta": "Qal seu RG?", "Digite": []},
     {"pergunta": "Qual seu estado Cívil? Ex: Solteiro, Casado, etc.", "opcoes": ["CASADO(A)", "SOLTEIRO(A)", "DIVORCIADO(A)", "VIÚVO(A)", "UNIÃO ESTÁVEL", "OUTROS"]},
-    {"pergunta": "Qual seu endereço completo com CEP?", "opcoes": []},
-    {"pergunta": "Qual sua profissão?", "opcoes": []},
+    {"pergunta": "Qual seu endereço completo com CEP?", "Digite": []},
+    {"pergunta": "Qual sua profissão?", "Digite": []},
     {"pergunta": "O senhor(a) recebeu algum cartão?", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
     {"pergunta": "Em caso afirmativo, o senhor(a) faz uso?", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
     {"pergunta": "O senhor(a) desbloqueou o cartão", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
@@ -71,3 +71,4 @@ if st.button("📄 Gerar PDF das respostas"):
     # Exibir botão para download
     with open(pdf_file, "rb") as f:
         st.download_button("⬇️ Baixar respostas em PDF", f, file_name="respostas_questionario.pdf")
+#python -m streamlit run app.py
