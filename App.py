@@ -5,21 +5,21 @@ import os
 
 # --- CONFIGURAÇÃO DO QUESTIONÁRIO ---
 questionario = [
-    {"pergunta": "Nome completo do cliente?", "Digite": []},
-    {"pergunta": "Qual seu CPF?", "Digite": []},
-    {"pergunta": "Qal seu RG?", "Digite": []},
-    {"pergunta": "Qual seu estado Cívil? Ex: Solteiro, Casado, etc.", "opcoes": ["CASADO(A)", "SOLTEIRO(A)", "DIVORCIADO(A)", "VIÚVO(A)", "UNIÃO ESTÁVEL", "OUTROS"]},
-    {"pergunta": "Qual seu endereço completo com CEP?", "Digite": []},
-    {"pergunta": "Qual sua profissão?", "Digite": []},
-    {"pergunta": "O senhor(a) recebeu algum cartão?", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
-    {"pergunta": "Em caso afirmativo, o senhor(a) faz uso?", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
-    {"pergunta": "O senhor(a) desbloqueou o cartão", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
-    {"pergunta": "O senhor(a) sabe se possui algum cartão vinculado no seu benefício?", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
-    {"pergunta": "O senhor(a) recebeu algum valor em alguma de suas contas?", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
-    {"pergunta": "O senhor(a) recebe faturas desse cartão?", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
-    {"pergunta": "O senhor(a) chegou a pagar alguma fatura ou somente por meio dos descontos?", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
-    {"pergunta": "O senhor(a) possui ação judicial sobre esse assunto com outro advogado?", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
-    {"pergunta": "O senhor(a) deseja discutir em juizo os descontos efetuados no seu benefício?", "opcoes": ["SIM", "NÃO"]}
+    {"pergunta": "Nome completo do cliente?", "tipo": "texto"},
+    {"pergunta": "Qual seu CPF?", "tipo": "texto"},
+    {"pergunta": "Qual seu RG?", "tipo": "texto"},
+    {"pergunta": "Qual seu estado Cívil? Ex: Solteiro, Casado, etc.", "tipo": "opcoes", "opcoes": ["CASADO(A)", "SOLTEIRO(A)", "DIVORCIADO(A)", "VIÚVO(A)", "UNIÃO ESTÁVEL", "OUTROS"]},
+    {"pergunta": "Qual seu endereço completo com CEP?", "tipo": "texto"},
+    {"pergunta": "Qual sua profissão?", "tipo": "texto"},
+    {"pergunta": "O senhor(a) recebeu algum cartão?", "tipo": "opcoes", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
+    {"pergunta": "Em caso afirmativo, o senhor(a) faz uso?", "tipo": "opcoes", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
+    {"pergunta": "O senhor(a) desbloqueou o cartão", "tipo": "opcoes", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
+    {"pergunta": "O senhor(a) sabe se possui algum cartão vinculado no seu benefício?", "tipo": "opcoes", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
+    {"pergunta": "O senhor(a) recebeu algum valor em alguma de suas contas?", "tipo": "opcoes", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
+    {"pergunta": "O senhor(a) recebe faturas desse cartão?", "tipo": "opcoes", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
+    {"pergunta": "O senhor(a) chegou a pagar alguma fatura ou somente por meio dos descontos?", "tipo": "opcoes", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
+    {"pergunta": "O senhor(a) possui ação judicial sobre esse assunto com outro advogado?", "tipo": "opcoes", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
+    {"pergunta": "O senhor(a) deseja discutir em juizo os descontos efetuados no seu benefício?", "tipo": "opcoes", "opcoes": ["SIM", "NÃO"]}
 ]
 
 st.title("📋 Questionário de Informações Essenciais")
