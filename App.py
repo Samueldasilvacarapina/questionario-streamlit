@@ -24,21 +24,20 @@ questionario = [
 
 st.title("📋 Questionário de Informações Essenciais")
 
-# --- LOOP DAS PERGUNTAS ---
 respostas = []
 faltando_resposta = False
 
+# --- LOOP DAS PERGUNTAS ---
 for idx, q in enumerate(questionario):
     st.subheader(f"{idx+1}. {q['pergunta']}")
 
-    if len(q["opcoes"]) == 0:
-        # Pergunta sem opções -> campo de texto livre
-        resposta = st.text_input("Digite a resposta:", key=f"q{idx}")
-    else:
-        # Pergunta com opções -> radio button
+    if q["opcoes"]:  
+        # Se tiver opções, usa radio
         resposta = st.radio("Escolha uma opção:", q["opcoes"], key=f"q{idx}")
+    else:
+        # Se NÃO tiver opções, usa campo de texto
+        resposta = st.text_input("Digite a resposta:", key=f"q{idx}")
 
-    # Checa se ficou vazio
     if not resposta.strip():
         faltando_resposta = True
     
@@ -61,7 +60,6 @@ def gerar_pdf(lista_respostas, anotacao_texto):
         pdf.multi_cell(0, 10, f"{i}. {pergunta}\nResposta: {resposta}")
         pdf.ln(5)
 
-    # Se tiver anotação, adiciona no final
     if anotacao_texto.strip():
         pdf.ln(10)
         pdf.set_font("Arial", "B", 14)
@@ -70,7 +68,6 @@ def gerar_pdf(lista_respostas, anotacao_texto):
         pdf.set_font("Arial", "", 12)
         pdf.multi_cell(0, 10, anotacao_texto)
 
-    # Salvar em arquivo temporário
     temp_dir = tempfile.gettempdir()
     pdf_path = os.path.join(temp_dir, "respostas_questionario.pdf")
     pdf.output(pdf_path)
@@ -84,6 +81,5 @@ if st.button("📄 Gerar PDF das respostas"):
         pdf_file = gerar_pdf(respostas, anotacao)
         st.success("✅ PDF gerado com sucesso!")
         
-        # Exibir botão para download
         with open(pdf_file, "rb") as f:
             st.download_button("⬇️ Baixar respostas em PDF", f, file_name="respostas_questionario.pdf")
