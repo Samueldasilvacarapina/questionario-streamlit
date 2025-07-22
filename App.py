@@ -6,8 +6,8 @@ import os
 # --- CONFIGURAÇÃO DO QUESTIONÁRIO ---
 questionario = [
     {"pergunta": "Nome completo do cliente?", "tipo": "texto"},
-    {"pergunta": "Qual seu CPF?", "tipo": "cpf"},  # CPF específico
-    {"pergunta": "Qual seu RG?", "tipo": "rg"},   # RG específico
+    {"pergunta": "Qual seu CPF?", "tipo": "cpf"},
+    {"pergunta": "Qual seu RG?", "tipo": "rg"},
     {"pergunta": "Qual seu estado Cívil? Ex: Solteiro, Casado, etc.", 
      "tipo": "opcoes", "opcoes": ["CASADO(A)", "SOLTEIRO(A)", "DIVORCIADO(A)", "VIÚVO(A)", "UNIÃO ESTÁVEL", "OUTROS"]},
     {"pergunta": "Qual seu endereço completo com CEP?", "tipo": "texto"},
@@ -56,13 +56,16 @@ for idx, q in enumerate(questionario):
             resposta = entrada
     
     elif q["tipo"] == "opcoes":
-        resposta = st.radio("Escolha uma opção:", q["opcoes"], key=f"q{idx}")
-        
-        # ✅ SE A OPÇÃO FOR "OUTROS", MOSTRA CAMPO EXTRA AUTOMATICAMENTE
+        opcoes = ["-- Selecione --"] + q["opcoes"]
+        resposta = st.selectbox("Escolha uma opção:", opcoes, key=f"q{idx}")
+
+        if resposta == "-- Selecione --":
+            resposta = ""
+
         if resposta == "OUTROS":
             resposta_outros = st.text_input("Especifique:", key=f"extra_{idx}")
             if resposta_outros.strip():
-                resposta = resposta_outros  # substitui pelo que foi digitado
+                resposta = resposta_outros
     
     else:
         resposta = ""
@@ -113,6 +116,4 @@ if st.button("📄 Gerar PDF das respostas"):
         with open(pdf_file, "rb") as f:
             st.download_button("⬇️ Baixar respostas em PDF", f, file_name="respostas_questionario.pdf")
 
-        st.balloons()  # animação de balões para celebrar o sucesso
-
-#python -m streamlit run app.py        
+        st.balloons()
