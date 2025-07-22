@@ -75,7 +75,7 @@ for idx, q in enumerate(questionario):
 st.write("---")
 
 # --- CAMPO PARA ANOTAÇÕES ---
-anotacao = st.text_area("📝 Resumo dos fatos (opcional)", height=150)
+anotacao = st.text_area("📝 Resumo dos fatos (Obrigatória)", height=150)
 
 def gerar_pdf(lista_respostas, anotacao_texto):
     pdf = FPDF()
@@ -106,7 +106,9 @@ def gerar_pdf(lista_respostas, anotacao_texto):
 if st.button("📄 Gerar PDF das respostas"):
     faltando = [pergunta for pergunta, resposta in respostas if resposta.strip() == ""]
     
-    if faltando:
+    if anotacao.strip() == "":
+        st.error("⚠️ O campo 'Resumo dos fatos' é obrigatório!")
+    elif faltando:
         st.error("⚠️ Você precisa responder **todas as perguntas obrigatórias** antes de gerar o PDF!")
         st.warning("Perguntas sem resposta:\n" + "\n".join([f"- {p}" for p in faltando]))
     else:
@@ -117,3 +119,8 @@ if st.button("📄 Gerar PDF das respostas"):
             st.download_button("⬇️ Baixar respostas em PDF", f, file_name="respostas_questionario.pdf")
 
         st.balloons()
+
+
+
+
+#python -m streamlit run app.py        
