@@ -75,7 +75,7 @@ for idx, q in enumerate(questionario):
 st.write("---")
 
 # --- CAMPO PARA ANOTAÇÕES ---
-anotacao = st.text_area("📝 Anotações Finais (opcional)", height=150)
+anotacao = st.text_area("📝 Resumo dos fatos (opcional)", height=150)
 
 def gerar_pdf(lista_respostas, anotacao_texto):
     pdf = FPDF()
