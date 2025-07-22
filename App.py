@@ -6,9 +6,10 @@ import os
 # --- CONFIGURAÇÃO DO QUESTIONÁRIO ---
 questionario = [
     {"pergunta": "Nome completo do cliente?", "tipo": "texto"},
-    {"pergunta": "Qual seu CPF?", "tipo": "numero"},  # só números
-    {"pergunta": "Qual seu RG?", "tipo": "numero"},   # só números
-    {"pergunta": "Qual seu estado Cívil? Ex: Solteiro, Casado, etc.", "tipo": "opcoes", "opcoes": ["CASADO(A)", "SOLTEIRO(A)", "DIVORCIADO(A)", "VIÚVO(A)", "UNIÃO ESTÁVEL", "OUTROS"]},
+    {"pergunta": "Qual seu CPF?", "tipo": "cpf"},  # CPF específico
+    {"pergunta": "Qual seu RG?", "tipo": "rg"},   # RG específico
+    {"pergunta": "Qual seu estado Cívil? Ex: Solteiro, Casado, etc.", 
+     "tipo": "opcoes", "opcoes": ["CASADO(A)", "SOLTEIRO(A)", "DIVORCIADO(A)", "VIÚVO(A)", "UNIÃO ESTÁVEL", "OUTROS"]},
     {"pergunta": "Qual seu endereço completo com CEP?", "tipo": "texto"},
     {"pergunta": "Qual sua profissão?", "tipo": "texto"},
     {"pergunta": "O senhor(a) recebeu algum cartão?", "tipo": "opcoes", "opcoes": ["SIM", "NÃO", "TALVEZ"]},
@@ -32,17 +33,36 @@ for idx, q in enumerate(questionario):
     if q["tipo"] == "texto":
         resposta = st.text_input("Digite a resposta:", key=f"q{idx}")
     
-    elif q["tipo"] == "numero":
-        entrada = st.text_input("Digite apenas números:", key=f"q{idx}")
-        # Permitir apenas números
+    elif q["tipo"] == "cpf":
+        entrada = st.text_input("Digite apenas números (11 dígitos):", key=f"q{idx}")
         if entrada and not entrada.isdigit():
-            st.error("⚠️ Digite apenas números!")
-            resposta = ""  # não aceita valor inválido
+            st.error("⚠️ CPF deve conter apenas números!")
+            resposta = ""
+        elif entrada and len(entrada) != 11:
+            st.error("⚠️ CPF deve ter exatamente **11 números**!")
+            resposta = ""
+        else:
+            resposta = entrada
+    
+    elif q["tipo"] == "rg":
+        entrada = st.text_input("Digite apenas números (7 a 10 dígitos):", key=f"q{idx}")
+        if entrada and not entrada.isdigit():
+            st.error("⚠️ RG deve conter apenas números!")
+            resposta = ""
+        elif entrada and (len(entrada) < 7 or len(entrada) > 10):
+            st.error("⚠️ RG deve ter entre **7 e 10 números**!")
+            resposta = ""
         else:
             resposta = entrada
     
     elif q["tipo"] == "opcoes":
         resposta = st.radio("Escolha uma opção:", q["opcoes"], key=f"q{idx}")
+        
+        # ✅ SE A OPÇÃO FOR "OUTROS", MOSTRA CAMPO EXTRA AUTOMATICAMENTE
+        if resposta == "OUTROS":
+            resposta_outros = st.text_input("Especifique:", key=f"extra_{idx}")
+            if resposta_outros.strip():
+                resposta = resposta_outros  # substitui pelo que foi digitado
     
     else:
         resposta = ""
@@ -92,5 +112,7 @@ if st.button("📄 Gerar PDF das respostas"):
         
         with open(pdf_file, "rb") as f:
             st.download_button("⬇️ Baixar respostas em PDF", f, file_name="respostas_questionario.pdf")
+
+        st.balloons()  # animação de balões para celebrar o sucesso
 
 #python -m streamlit run app.py        
