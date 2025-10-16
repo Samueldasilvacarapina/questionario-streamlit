@@ -7,7 +7,7 @@ import os
 questionario = [
     {"pergunta": "Nome completo do cliente?", "tipo": "texto"},
     {"pergunta": "Qual seu CPF?", "tipo": "cpf"},
-    {"pergunta": "Qual seu RG?", "tipo": "rg"},
+    {"pergunta": "Qual seu RG?", "tipo": "texto"},  # <-- Agora é campo de texto livre
     {"pergunta": "Qual seu estado Cívil? Ex: Solteiro, Casado, etc.", 
      "tipo": "opcoes", "opcoes": ["CASADO(A)", "SOLTEIRO(A)", "DIVORCIADO(A)", "VIÚVO(A)", "UNIÃO ESTÁVEL", "OUTROS"]},
     {"pergunta": "Qual seu endereço completo com CEP?", "tipo": "texto"},
@@ -43,18 +43,7 @@ for idx, q in enumerate(questionario):
             resposta = ""
         else:
             resposta = entrada
-    
-    elif q["tipo"] == "rg":
-        entrada = st.text_input("Digite apenas números (7 a 10 dígitos):", key=f"q{idx}")
-        if entrada and not entrada.isdigit():
-            st.error("⚠️ RG deve conter apenas números!")
-            resposta = ""
-        elif entrada and (len(entrada) < 7 or len(entrada) > 10):
-            st.error("⚠️ RG deve ter entre **7 e 10 números**!")
-            resposta = ""
-        else:
-            resposta = entrada
-    
+
     elif q["tipo"] == "opcoes":
         opcoes = ["-- Selecione --"] + q["opcoes"]
         resposta = st.selectbox("Escolha uma opção:", opcoes, key=f"q{idx}")
@@ -66,7 +55,6 @@ for idx, q in enumerate(questionario):
             resposta_outros = st.text_input("Especifique:", key=f"extra_{idx}")
             if resposta_outros.strip():
                 resposta = resposta_outros
-    
     else:
         resposta = ""
     
@@ -74,10 +62,8 @@ for idx, q in enumerate(questionario):
 
 st.write("---")
 
-# --- CAMPO PARA ANOTAÇÕES ---
-anotacao = st.text_area("📝 Resumo dos fatos (Obrigatória)", height=150)
-
-def gerar_pdf(lista_respostas, anotacao_texto):
+# --- FUNÇÃO PARA GERAR PDF ---
+def gerar_pdf(lista_respostas):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", "B", 16)
@@ -89,14 +75,6 @@ def gerar_pdf(lista_respostas, anotacao_texto):
         pdf.multi_cell(0, 10, f"{i}. {pergunta}\nResposta: {resposta}")
         pdf.ln(5)
 
-    if anotacao_texto.strip():
-        pdf.ln(10)
-        pdf.set_font("Arial", "B", 14)
-        pdf.cell(0, 10, "Anotações Finais:", ln=True)
-        pdf.ln(5)
-        pdf.set_font("Arial", "", 12)
-        pdf.multi_cell(0, 10, anotacao_texto)
-
     temp_dir = tempfile.gettempdir()
     pdf_path = os.path.join(temp_dir, "respostas_questionario.pdf")
     pdf.output(pdf_path)
@@ -106,21 +84,14 @@ def gerar_pdf(lista_respostas, anotacao_texto):
 if st.button("📄 Gerar PDF das respostas"):
     faltando = [pergunta for pergunta, resposta in respostas if resposta.strip() == ""]
     
-    if anotacao.strip() == "":
-        st.error("⚠️ O campo 'Resumo dos fatos' é obrigatório!")
-    elif faltando:
+    if faltando:
         st.error("⚠️ Você precisa responder **todas as perguntas obrigatórias** antes de gerar o PDF!")
         st.warning("Perguntas sem resposta:\n" + "\n".join([f"- {p}" for p in faltando]))
     else:
-        pdf_file = gerar_pdf(respostas, anotacao)
+        pdf_file = gerar_pdf(respostas)
         st.success("✅ PDF gerado com sucesso!")
         
         with open(pdf_file, "rb") as f:
             st.download_button("⬇️ Baixar respostas em PDF", f, file_name="respostas_questionario.pdf")
 
         st.balloons()
-
-
-
-
-#python -m streamlit run app.py        
