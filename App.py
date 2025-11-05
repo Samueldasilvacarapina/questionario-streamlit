@@ -1,6 +1,9 @@
 import streamlit as st
 from fpdf import FPDF
 import tempfile
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
+
 import os
 
 # --- CONFIGURAÇÃO DO QUESTIONÁRIO ---
@@ -95,3 +98,4 @@ if st.button("📄 Gerar PDF das respostas"):
             st.download_button("⬇️ Baixar respostas em PDF", f, file_name="respostas_questionario.pdf")
 
         st.balloons()
+
